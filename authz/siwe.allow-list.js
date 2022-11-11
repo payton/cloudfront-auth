@@ -1,5 +1,5 @@
 function isAuthorized(decoded, request, callback, unauthorized, internalServerError, config) {
-    if (config.ALLOW_LIST.split(",").includes(decoded.sub)) {
+    if (config.ALLOW_LIST.split(",").includes(decoded.sub.slice(9).toLowerCase())) {
         callback(null, request);
     } else {
         unauthorized('Unauthorized', 'Address ' + decoded.sub + ' is not permitted.', '', callback);

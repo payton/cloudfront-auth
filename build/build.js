@@ -650,11 +650,28 @@ function siweConfiguration() {
       case '1':
         shell.cp('./authz/siwe.allow-list.js', './distributions/' + config.DISTRIBUTION + '/auth.js');
         shell.cp('./nonce.js', './distributions/' + config.DISTRIBUTION + '/nonce.js');
-        writeConfig(config, zip, ['config.json', 'index.js', 'auth.js', 'nonce.js']);
+        siweAllowListConfiguration();
         break;
       default:
         console.log("Method not recognized. Stopping build...");
     }
+  });
+}
+
+function siweAllowListConfiguration() {
+  prompt.start();
+  prompt.message = colors.blue(">>>");
+  prompt.get({
+    properties: {
+      ALLOW_LIST: {
+        description: colors.red("Ethereum Address Allow List (comma separated)"),
+        required: true,
+        default: R.pathOr('', ['ALLOW_LIST'], oldConfig)
+      }
+    }
+  }, function (err, result) {
+    config.ALLOW_LIST = result.ALLOW_LIST.toLowerCase();
+    writeConfig(config, zip, ['config.json', 'index.js', 'auth.js', 'nonce.js']);
   });
 }
 
