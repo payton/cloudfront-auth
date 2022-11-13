@@ -618,13 +618,13 @@ function siweConfiguration() {
         default: R.pathOr('', ['SESSION_DURATION'], oldConfig)/60/60
       },
       AUTHZ: {
-        description: colors.red("Authorization methods:\n   (1) ALLOW_LIST env variable - Compare user with comma separated ALLOW_LIST lambda environment variable\n\n   Select an authorization method")
+        description: colors.red("Authorization methods:\n   (1) ALLOW_LIST configuration variable - Compare user with comma separated ALLOW_LIST variable in config\n\n   Select an authorization method")
       }
     }
   }, function(err, result) {
     config.PRIVATE_KEY = fs.readFileSync('distributions/' + config.DISTRIBUTION + '/id_rsa', 'utf8');
     config.PUBLIC_KEY = fs.readFileSync('distributions/' + config.DISTRIBUTION + '/id_rsa.pub', 'utf8');
-    config.DISCOVERY_DOCUMENT = 'https://oidc.login.xyz/.well-known/openid-configuration';
+    config.DISCOVERY_DOCUMENT = 'https://oidc.signinwithethereum.org/.well-known/openid-configuration';
     config.SESSION_DURATION = parseInt(result.SESSION_DURATION, 10) * 60 * 60;
 
     config.CALLBACK_PATH = url.parse(result.REDIRECT_URI).pathname;
